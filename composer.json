@@ -2,7 +2,7 @@
   "name": "internetrix/silverstripe-graphql-updatemany",
   "description": "Adds graphql support for an updateMany scaffolder",
   "type": "silverstripe-vendormodule",
-  "homepage": "https://gitlab.internetrix.net/silverstripe-modules/graphql-manymanyjoin",
+  "homepage": "https://github.com/Internetrix/silverstripe-graphql-updatemany",
   "keywords": [
     "silverstripe",
     "module",
@@ -19,7 +19,7 @@
     }
   ],
   "support": {
-    "issues": "https://gitlab.internetrix.net/silverstripe-modules/graphql-updatemany/issues"
+    "issues": "https://github.com/Internetrix/silverstripe-graphql-updatemany/issues"
   },
   "require": {
     "silverstripe/vendor-plugin": "^1.0",
