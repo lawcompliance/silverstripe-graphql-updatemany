@@ -1,0 +1,7 @@
+---
+Name: graphqlupdatemany
+---
+# Register the new operation
+SilverStripe\GraphQL\Scaffolding\Scaffolders\OperationScaffolder:
+  operations:
+    updateMany: Internetrix\GraphQLUpdateMany\Scaffolders\UpdateMany
