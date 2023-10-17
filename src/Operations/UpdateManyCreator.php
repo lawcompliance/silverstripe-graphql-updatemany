@@ -11,6 +11,7 @@ use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\GraphQL\Schema\DataObject\FieldAccessor;
 use SilverStripe\GraphQL\Schema\Exception\SchemaBuilderException;
+use SilverStripe\GraphQL\Schema\Field\ModelField;
 use SilverStripe\GraphQL\Schema\Field\ModelMutation;
 use SilverStripe\GraphQL\Schema\Interfaces\ModelOperation;
 use SilverStripe\GraphQL\Schema\Schema;
@@ -22,6 +23,7 @@ use SilverStripe\ORM\ArrayList;
 use Closure;
 use SilverStripe\GraphQL\Schema\DataObject\FieldReconciler;
 use SilverStripe\GraphQL\Schema\Type\ModelType;
+use SilverStripe\ORM\FieldType\DBEnum;
 
 /**
  * Creates an update operation for a DataObject
@@ -56,7 +58,9 @@ class UpdateManyCreator implements OperationCreator, InputTypeProvider
         $plugins = $config['plugins'] ?? [];
         $mutationName = $config['name'] ?? null;
         if (!$mutationName) {
-            $mutationName = 'update' . ucfirst(Schema::pluralise($typeName));
+            $pluraliser = $model->getSchemaConfig()->getPluraliser();
+            $suffix = $pluraliser ? $pluraliser($typeName) : $typeName;
+            $mutationName = 'updateMany' . ucfirst($suffix ?? '');
         }
         $singleUpdateOperation = 'update' . ucfirst($typeName);
         $inputTypeName = self::inputTypeName($typeName);
@@ -113,7 +117,23 @@ class UpdateManyCreator implements OperationCreator, InputTypeProvider
 
         $fieldMap = [];
         foreach ($includedFields as $fieldName) {
-            $fieldMap[$fieldName] = $modelType->getFieldByName($fieldName)->getType();
+            $fieldObj = $modelType->getFieldByName($fieldName);
+            if (!$fieldObj) {
+                continue;
+            }
+            $type = $fieldObj->getNamedType();
+            if (!$type) {
+                continue;
+            }
+            $isScalar = Schema::isInternalType($type);
+            if (!$isScalar && $fieldObj instanceof ModelField) {
+                $dataClass = $fieldObj->getMetadata()->get('dataClass');
+                $isScalar = $dataClass === DBEnum::class || is_subclass_of($dataClass, DBEnum::class);
+            }
+            // No nested input types... yet
+            if ($isScalar) {
+                $fieldMap[$fieldName] = $type;
+            }
         }
         $inputType = InputType::create(
             self::inputTypeName($modelType->getName()),
@@ -150,6 +170,6 @@ class UpdateManyCreator implements OperationCreator, InputTypeProvider
      */
     private static function inputTypeName(string $typeName): string
     {
-        return 'Update' . ucfirst($typeName) . 'Input';
+        return 'Update' . ucfirst($typeName ?? '') . 'Input';
     }
 }
