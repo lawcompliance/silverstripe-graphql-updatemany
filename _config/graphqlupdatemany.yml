@@ -2,6 +2,6 @@
 Name: graphqlupdatemany
 ---
 ## Register the new operation
-#SilverStripe\GraphQL\Scaffolding\Scaffolders\OperationScaffolder:
+#SilverStripe\GraphQL\Schema\DataObject\DataObjectModel:
 #  operations:
-#    updateMany: Internetrix\GraphQLUpdateMany\Scaffolders\UpdateMany
+#    updateMany: 'Internetrix\GraphQLUpdateMany\Operations\UpdateManyCreator'
