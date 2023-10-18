@@ -30,9 +30,6 @@
     "phpunit/phpunit": "10.2.6",
     "squizlabs/php_codesniffer": "^3.0"
   },
-  "extra": {
-    "installer-name": "graphql-updatemany"
-  },
   "autoload": {
     "psr-4": {
       "Internetrix\\GraphQLUpdateMany\\": "src/"
