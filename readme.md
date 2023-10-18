@@ -6,6 +6,17 @@ Adds support for the updateMany operation. The input for each model is delegated
 ## Requirements
 * SilverStripe CMS 4.0
 
+## Installation
+Since you can have multiple schemas, you need to add the following to whichever schema you want to enable this operation on
+
+```
+SilverStripe\GraphQL\Schema\Schema:
+  schemas:
+    default:
+      src:
+        - 'internetrix/silverstripe-graphql-updatemany: _graphql'
+```
+
 ## Usage
 Just like other operations, enable this operation on a model by doing something like the following
 
