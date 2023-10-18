@@ -1,0 +1,5 @@
+modelConfig:
+  DataObject:
+    operations:
+      updateMany:
+        class: 'Internetrix\GraphQLUpdateMany\Operations\UpdateManyCreator'

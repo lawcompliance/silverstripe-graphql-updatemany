@@ -1,7 +1,0 @@
----
-Name: graphqlupdatemany
----
-## Register the new operation
-#SilverStripe\GraphQL\Schema\DataObject\DataObjectModel:
-#  operations:
-#    updateMany: 'Internetrix\GraphQLUpdateMany\Operations\UpdateManyCreator'
